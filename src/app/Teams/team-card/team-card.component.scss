@@ -4,7 +4,7 @@
     justify-content: center;
 
     &::ng-deep app-grades-list .container {
-        width: 600px;
+        width: 90%;
     }
 }
 
@@ -174,4 +174,5 @@
 
 app-grades-list {
     margin: 0 auto 0 auto;
+    width: 90%
 }

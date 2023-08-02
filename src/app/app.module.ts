@@ -25,7 +25,7 @@ import { GradesListComponent } from './Activities/grades-list/grades-list.compon
 import { GradesCardComponent } from './Activities/grades-card/grades-card.component';
 import { GradesPopupComponent } from './Activities/grades-popup/grades-popup.component';
 import { SessionCardComponent } from './Ongoing/session-card/session-card.component';
-
+import { HttpClientModule } from '@angular/common/http';
 
 const   routes: Routes = [
   { path: '', redirectTo: 'LogIn', pathMatch: 'full' },
@@ -83,7 +83,8 @@ const   routes: Routes = [
     AppRoutingModule,
     RouterModule.forRoot(routes),
     
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

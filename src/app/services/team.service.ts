@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export class Team {
   id_leader: number;
@@ -16,15 +18,23 @@ export class Team {
   providedIn: 'root'
 })
 export class TeamService {
-  private teams: Team[] = [
-    new Team(3, 1, 'Team Alpha'),
-    new Team(4, 2, 'Team Beta'),
-    new Team(8, 3, 'Team C'),
-    new Team(8, 4, 'Team D'),
-  ];
+  private apiUrl = 'http://localhost:8080/teams/all';
+  private teams: Team[] = [];
 
-  constructor() { }
-
+  constructor(private http: HttpClient) {
+    this.loadTeams().subscribe(
+      (teams: Team[]) => {
+        this.teams = teams.map((team: any) => {
+          const idLeader: number = team.id_leader?.id;
+          return new Team(idLeader, team.id_team, team.team_name);
+        });
+        console.log(this.teams);
+      },
+      (error) => {
+        console.error('Error loading teams:', error);
+      }
+    );
+  }
 
   getTeams(): Team[] {
     return this.teams;
@@ -41,5 +51,9 @@ export class TeamService {
   isCurrentUserLeaderOfTeam(teamId: number | null | undefined, currentUserId: number | null | undefined): boolean {
     const team = this.teams.find(t => t.id_team === teamId);
     return team ? team.id_leader === currentUserId : false;
+  }
+
+  private loadTeams(): Observable<Team[]> {
+    return this.http.get<Team[]>(this.apiUrl);
   }
 }
